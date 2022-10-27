@@ -24,19 +24,28 @@ const Register = () => {
     console.log(e.target)
   }
 
+  const toggleMember = () => {
+    setValues((state) => ({
+      ...state,
+      isMember: !state.isMember,
+    }))
+  }
+
   return (
     <Wrapper className='full-page'>
       <form className='form' onSubmit={handleSubmit}>
         <Logo />
-        <h3>login</h3>
+        <h3>{values.isMember ? 'login' : 'register'}</h3>
         {/* name field */}
-        <FormRow
-          type='text'
-          name='name'
-          value={values.name}
-          labelText='name'
-          handleChange={handleChange}
-        />
+        {!values.isMember && (
+          <FormRow
+            type='text'
+            name='name'
+            value={values.name}
+            labelText='name'
+            handleChange={handleChange}
+          />
+        )}
         {/* email field */}
         <FormRow
           type='email'
@@ -56,6 +65,12 @@ const Register = () => {
         <button type='submit' className='btn btn-block'>
           submit
         </button>
+        <p>
+          {values.isMember ? 'Not a member yet?' : 'Already a member?'}
+          <button type='button' className='member-btn' onClick={toggleMember}>
+            {values.isMember ? 'Register' : 'Login'}
+          </button>
+        </p>
       </form>
     </Wrapper>
   )
