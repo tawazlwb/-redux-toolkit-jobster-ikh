@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { toast } from 'react-toastify'
 import Wrapper from '../assets/wrappers/RegisterPage'
 import { Logo, FormRow } from '../components'
 
@@ -26,7 +27,7 @@ const Register = () => {
     const { name, email, password, isMember } = values
 
     if (!email || !password || (!isMember && !name)) {
-      console.log('Please fill out all fields')
+      toast.warning('Please fill out all fields')
     }
   }
 
