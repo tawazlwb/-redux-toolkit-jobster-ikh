@@ -1,8 +1,7 @@
-import { createSlice } from '@reduxjs/toolkit'
-import {
-  getUserFromLocalStorage,
-  removeUserFromLocalStorage,
-} from '../../utils/localStorage'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import customFetch from '../../utils/axios'
+import { toast } from 'react-toastify'
+import { logoutUser } from '../user/userSlice'
 
 export const jobTypeOptions = ['full-time', 'part-time', 'remote', 'internship']
 export const statusOptions = ['pending', 'interview', 'declined']
@@ -10,7 +9,7 @@ export const statusOptions = ['pending', 'interview', 'declined']
 const initialState = {
   isLoading: false,
   position: '',
-  compagny: '',
+  company: '',
   jobLocation: '',
   jobTypeOptions: jobTypeOptions,
   jobType: jobTypeOptions[0],
@@ -19,6 +18,32 @@ const initialState = {
   isEditing: false,
   editJobId: '',
 }
+
+export const createJobUrl = '/jobs'
+
+export const createJob = createAsyncThunk(
+  'job/createJob',
+  async (job, thunkAPI) => {
+    try {
+      const options = {
+        headers: {
+          authorization: `Bearer ${thunkAPI.getState().user.user.token}`,
+        },
+      }
+      const response = await customFetch.post(createJobUrl, job, options)
+      thunkAPI.dispatch(clearValues())
+      return response.data
+    } catch (error) {
+      console.log(error)
+      if (error.response.status === 401) {
+        thunkAPI.dispatch(logoutUser())
+        return thunkAPI.rejectWithValue('Unauthorized! Logging Out...')
+      }
+
+      return thunkAPI.rejectWithValue(error.response.data.msg)
+    }
+  }
+)
 
 const jobSlice = createSlice({
   name: 'job',
@@ -31,7 +56,19 @@ const jobSlice = createSlice({
       return initialState
     },
   },
-  extraReducers: {},
+  extraReducers: {
+    [createJob.pending]: (state) => {
+      state.isLoading = true
+    },
+    [createJob.fulfilled]: (state) => {
+      state.isLoading = false
+      toast.success('Job Created')
+    },
+    [createJob.rejected]: (state, { payload }) => {
+      state.isLoading = false
+      toast.error(payload)
+    },
+  },
 })
 
 export const { handleChange, clearValues } = jobSlice.actions
