@@ -1,23 +1,18 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { toast } from 'react-toastify'
-import customFetch from '../../utils/axios'
+import {
+  getUserFromLocalStorage,
+  removeUserFromLocalStorage,
+} from '../../utils/localStorage'
+import {
+  registerUrl,
+  userPayloadCreator,
+  userSessionExtraReducerCreator,
+} from './userHelper'
 
 const initialState = {
   isLoading: false,
-  user: null,
+  user: getUserFromLocalStorage(),
 }
-
-const userPayloadCreator = (url) => async (user, thunkAPI) => {
-  try {
-    const response = await customFetch.post(url, user)
-    return response.data
-  } catch (error) {
-    return thunkAPI.rejectWithValue(error.response.data.msg)
-  }
-}
-
-const isTesting = false
-const registerUrl = isTesting ? '/auth/testingRegister' : '/auth/register'
 
 export const registerUser = createAsyncThunk(
   'user/registerUser',
@@ -34,32 +29,8 @@ const userSlice = createSlice({
   name: 'user',
   initialState,
   extraReducers: {
-    [registerUser.pending]: (state) => {
-      state.isLoading = true
-    },
-    [registerUser.fulfilled]: (state, { payload }) => {
-      const { user } = payload
-      state.user = user
-      state.isLoading = false
-      toast.success(`Hello There ${user.name}`)
-    },
-    [registerUser.rejected]: (state, { payload }) => {
-      state.isLoading = false
-      toast.error(payload)
-    },
-    [loginUser.pending]: (state) => {
-      state.isLoading = true
-    },
-    [loginUser.fulfilled]: (state, { payload }) => {
-      const { user } = payload
-      state.user = user
-      state.isLoading = false
-      toast.success(`Welcome Back ${user.name}`)
-    },
-    [loginUser.rejected]: (state, { payload }) => {
-      state.isLoading = false
-      toast.error(payload)
-    },
+    ...userSessionExtraReducerCreator(registerUser, 'Hello There'),
+    ...userSessionExtraReducerCreator(loginUser, 'Welcome Back'),
   },
 })
 
