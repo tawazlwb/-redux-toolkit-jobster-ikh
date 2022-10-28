@@ -1,9 +1,14 @@
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { FaAlignLeft, FaUserCircle, FaCaretDown } from 'react-icons/fa'
-import { toggleSidebar, logoutUser } from '../features/user/userSlice'
+import {
+  toggleSmallSidebar,
+  toggleBigSidebar,
+  logoutUser,
+} from '../features/user/userSlice'
 import { Logo } from '.'
 import Wrapper from '../assets/wrappers/Navbar'
+import { LARGE_WIDTH } from '../utils'
 
 const Navbar = () => {
   const [showLogout, setShowLogout] = useState(false)
@@ -11,7 +16,13 @@ const Navbar = () => {
   const dispatch = useDispatch()
 
   const toggle = () => {
-    dispatch(toggleSidebar())
+    const width = window.innerWidth
+
+    if (width >= LARGE_WIDTH) {
+      dispatch(toggleBigSidebar())
+    } else {
+      dispatch(toggleSmallSidebar())
+    }
   }
 
   const logout = () => {
