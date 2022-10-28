@@ -1,8 +1,7 @@
-import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
 import { FormRow, FormRowSelect } from '../../components'
-import { updateUser } from '../../features/user/userThunk'
+import { handleChange } from '../../features/job/jobSlice'
 import Wrapper from '../../assets/wrappers/DashboardFormPage'
 
 const AddJob = () => {
@@ -23,8 +22,7 @@ const AddJob = () => {
   const handleJobInput = (e) => {
     const id = e.target.id
     const value = e.target.value
-
-    console.log(id, value)
+    dispatch(handleChange({ id, value }))
   }
 
   const handleSubmit = (e) => {

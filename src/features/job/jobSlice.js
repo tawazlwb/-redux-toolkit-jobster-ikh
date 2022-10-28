@@ -23,10 +23,14 @@ const initialState = {
 const jobSlice = createSlice({
   name: 'job',
   initialState,
-  reducers: {},
+  reducers: {
+    handleChange: (state, { payload: { id, value } }) => {
+      state[id] = value
+    },
+  },
   extraReducers: {},
 })
 
-export const {} = jobSlice.actions
+export const { handleChange } = jobSlice.actions
 
 export default jobSlice.reducer
