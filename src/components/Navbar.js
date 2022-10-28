@@ -6,6 +6,7 @@ import { Logo } from '.'
 import Wrapper from '../assets/wrappers/Navbar'
 
 const Navbar = () => {
+  const [showLogout, setShowLogout] = useState(false)
   const { user } = useSelector((store) => store.user)
   const dispatch = useDispatch()
 
@@ -27,13 +28,13 @@ const Navbar = () => {
           <button
             type='button'
             className='btn'
-            onClick={() => console.log('toggle logout dropdown')}
+            onClick={() => setShowLogout(!showLogout)}
           >
             <FaUserCircle />
             {user?.name}
             <FaCaretDown />
           </button>
-          <div className='dropdown show-dropdown'>
+          <div className={`dropdown ${showLogout && 'show-dropdown'}`}>
             <button
               type='button'
               className='dropdown-btn'
