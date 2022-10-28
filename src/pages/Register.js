@@ -73,7 +73,6 @@ const Register = () => {
             type='text'
             name='name'
             value={values.name}
-            labelText='name'
             handleChange={handleChange}
           />
         )}
@@ -82,7 +81,6 @@ const Register = () => {
           type='email'
           name='email'
           value={values.email}
-          labelText='email'
           handleChange={handleChange}
         />
         {/* password field */}
@@ -90,7 +88,6 @@ const Register = () => {
           type='password'
           name='password'
           value={values.password}
-          labelText='password'
           handleChange={handleChange}
         />
         <button type='submit' className='btn btn-block' disabled={isLoading}>
