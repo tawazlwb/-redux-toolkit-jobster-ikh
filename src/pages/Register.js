@@ -1,5 +1,7 @@
+import { useEffect } from 'react'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import Wrapper from '../assets/wrappers/RegisterPage'
 import { Logo, FormRow } from '../components'
@@ -16,6 +18,7 @@ const Register = () => {
   const [values, setValues] = useState(initialState)
   const { user, isLoading } = useSelector((store) => store.user)
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const handleChange = (e) => {
     const id = e.target.id
@@ -50,6 +53,14 @@ const Register = () => {
       isMember: !state.isMember,
     }))
   }
+
+  useEffect(() => {
+    if (user) {
+      setTimeout(() => {
+        navigate('/')
+      }, 2000)
+    }
+  }, [user, navigate])
 
   return (
     <Wrapper className='full-page'>
