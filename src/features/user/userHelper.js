@@ -6,19 +6,38 @@ export const isTesting = false
 export const registerUrl = isTesting
   ? '/auth/testingRegister'
   : '/auth/register'
+export const loginUrl = '/auth/login'
+export const updateUserUrl = '/auth/updateUser'
 
-export const userPayloadCreator = (url) => async (user, thunkAPI) => {
-  try {
-    const response = await customFetch.post(url, user)
-    return response.data
-  } catch (error) {
-    return thunkAPI.rejectWithValue(error.response.data.msg)
+export const getCustomFetch = (url, user, method, options) => {
+  if (method === 'post' || method === 'put' || method === 'patch') {
+    return customFetch[method](url, user, options)
   }
+
+  return customFetch[method](url, options)
 }
+
+export const userPayloadCreator =
+  (url, method, useToken) => async (user, thunkAPI) => {
+    try {
+      const options = useToken
+        ? {
+            headers: {
+              authorization: `Bearer ${thunkAPI.getState().user.user.token}`,
+            },
+          }
+        : {}
+      const response = await getCustomFetch(url, user, method, options)
+      return response.data
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data.msg)
+    }
+  }
 
 export const userSessionExtraReducerCreator = (
   asyncThunkActionCreator,
-  message
+  message,
+  hideUserName
 ) => {
   return {
     [asyncThunkActionCreator.pending]: (state) => {
@@ -29,7 +48,9 @@ export const userSessionExtraReducerCreator = (
       state.user = user
       addUserToLocalStorage(user)
       state.isLoading = false
-      toast.success(`${message} ${user.name}`)
+
+      const msg = hideUserName ? message : `${message} ${user.name}`
+      toast.success(msg)
     },
     [asyncThunkActionCreator.rejected]: (state, { payload }) => {
       state.isLoading = false

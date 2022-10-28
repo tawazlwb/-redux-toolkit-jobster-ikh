@@ -4,7 +4,9 @@ import {
   removeUserFromLocalStorage,
 } from '../../utils/localStorage'
 import {
+  loginUrl,
   registerUrl,
+  updateUserUrl,
   userPayloadCreator,
   userSessionExtraReducerCreator,
 } from './userHelper'
@@ -18,13 +20,18 @@ const initialState = {
 
 export const registerUser = createAsyncThunk(
   'user/registerUser',
-  userPayloadCreator(registerUrl)
+  userPayloadCreator(registerUrl, 'post')
 )
 
 // user : iskh@yopmail.com/123456
 export const loginUser = createAsyncThunk(
   'user/loginUser',
-  userPayloadCreator('/auth/login')
+  userPayloadCreator(loginUrl, 'post')
+)
+
+export const updateUser = createAsyncThunk(
+  'user/updateUser',
+  userPayloadCreator(updateUserUrl, 'patch', true)
 )
 
 const userSlice = createSlice({
@@ -45,6 +52,7 @@ const userSlice = createSlice({
   extraReducers: {
     ...userSessionExtraReducerCreator(registerUser, 'Hello There'),
     ...userSessionExtraReducerCreator(loginUser, 'Welcome Back'),
+    ...userSessionExtraReducerCreator(updateUser, 'User Updated!', true),
   },
 })
 
