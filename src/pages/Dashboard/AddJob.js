@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
-import { FormRow } from '../../components'
+import { FormRow, FormRowSelect } from '../../components'
 import { updateUser } from '../../features/user/userThunk'
 import Wrapper from '../../assets/wrappers/DashboardFormPage'
 
@@ -50,6 +50,7 @@ const AddJob = () => {
             value={position}
             handleChange={handleJobInput}
           />
+
           {/* compagny field */}
           <FormRow
             type='text'
@@ -57,6 +58,7 @@ const AddJob = () => {
             value={compagny}
             handleChange={handleJobInput}
           />
+
           {/* jobLocation field */}
           <FormRow
             type='text'
@@ -65,8 +67,23 @@ const AddJob = () => {
             labelText='job location'
             handleChange={handleJobInput}
           />
-          {/* jobType field */}
+
           {/* status field */}
+          <FormRowSelect
+            name='status'
+            value={status}
+            options={statusOptions}
+            handleChange={handleJobInput}
+          />
+
+          {/* jobType field */}
+          <FormRowSelect
+            name='jobType'
+            value={jobType}
+            options={jobTypeOptions}
+            labelText='job type'
+            handleChange={handleJobInput}
+          />
 
           <div className='btn-container'>
             <button
