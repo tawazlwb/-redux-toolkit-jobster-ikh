@@ -52,7 +52,9 @@ const userSlice = createSlice({
   extraReducers: {
     ...userSessionExtraReducerCreator(registerUser, 'Hello There'),
     ...userSessionExtraReducerCreator(loginUser, 'Welcome Back'),
-    ...userSessionExtraReducerCreator(updateUser, 'User Updated!', true),
+    ...userSessionExtraReducerCreator(updateUser, 'User Updated!', true, {
+      logoutUser: () => logoutUser(),
+    }),
   },
 })
 

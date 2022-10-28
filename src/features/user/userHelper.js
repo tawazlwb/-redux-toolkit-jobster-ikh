@@ -1,5 +1,6 @@
 import { toast } from 'react-toastify'
 import customFetch from '../../utils/axios'
+import { logoutUser } from './userSlice'
 import { addUserToLocalStorage } from '../../utils/localStorage'
 
 export const isTesting = false
@@ -18,18 +19,24 @@ export const getCustomFetch = (url, user, method, options) => {
 }
 
 export const userPayloadCreator =
-  (url, method, useToken) => async (user, thunkAPI) => {
+  (url, method, useToken, actions) => async (user, thunkAPI) => {
     try {
       const options = useToken
         ? {
             headers: {
-              authorization: `Bearer ${thunkAPI.getState().user.user.token}`,
+              // authorization: `Bearer ${thunkAPI.getState().user.user.token}`,
+              authorization: `Bearer `,
             },
           }
         : {}
       const response = await getCustomFetch(url, user, method, options)
       return response.data
     } catch (error) {
+      if (error.response.status === 401) {
+        thunkAPI.dispatch(logoutUser())
+        return thunkAPI.rejectWithValue('Unauthorized! Logging Out...')
+      }
+
       return thunkAPI.rejectWithValue(error.response.data.msg)
     }
   }
