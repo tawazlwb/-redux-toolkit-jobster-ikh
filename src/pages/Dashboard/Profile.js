@@ -48,7 +48,6 @@ const Profile = () => {
             type='text'
             name='name'
             value={userData.name}
-            labelText='name'
             handleChange={handleChange}
           />
           {/* lastName field */}
@@ -56,7 +55,7 @@ const Profile = () => {
             type='text'
             name='lastName'
             value={userData.lastName}
-            labelText='lastName'
+            labelText='last name'
             handleChange={handleChange}
           />
           {/* email field */}
@@ -64,7 +63,6 @@ const Profile = () => {
             type='email'
             name='email'
             value={userData.email}
-            labelText='email'
             handleChange={handleChange}
           />
           {/* password field */}
@@ -72,7 +70,6 @@ const Profile = () => {
             type='text'
             name='location'
             value={userData.location}
-            labelText='location'
             handleChange={handleChange}
           />
           <button type='submit' className='btn btn-block' disabled={isLoading}>

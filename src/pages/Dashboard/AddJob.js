@@ -1,5 +1,93 @@
+import { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { toast } from 'react-toastify'
+import { FormRow } from '../../components'
+import { updateUser } from '../../features/user/userThunk'
+import Wrapper from '../../assets/wrappers/DashboardFormPage'
+
 const AddJob = () => {
-  return <div>AddJob</div>
+  const {
+    isLoading,
+    position,
+    compagny,
+    jobLocation,
+    jobTypeOptions,
+    jobType,
+    statusOptions,
+    status,
+    isEditing,
+    editJobId,
+  } = useSelector((store) => store.job)
+  const dispatch = useDispatch()
+
+  const handleJobInput = (e) => {
+    const id = e.target.id
+    const value = e.target.value
+
+    console.log(id, value)
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+
+    if (!position || !compagny || !jobLocation) {
+      toast.error('Please fill out all fields')
+      return
+    }
+
+    // dispatch(updateUser({ name, email, lastName, location }))
+  }
+
+  return (
+    <Wrapper>
+      <form className='form' onSubmit={handleSubmit}>
+        <h3>{isEditing ? 'edit job' : 'add job'}</h3>
+        <div className='form-center'>
+          {/* position field */}
+          <FormRow
+            type='text'
+            name='position'
+            value={position}
+            handleChange={handleJobInput}
+          />
+          {/* compagny field */}
+          <FormRow
+            type='text'
+            name='compagny'
+            value={compagny}
+            handleChange={handleJobInput}
+          />
+          {/* jobLocation field */}
+          <FormRow
+            type='text'
+            name='jobLocation'
+            value={jobLocation}
+            labelText='job location'
+            handleChange={handleJobInput}
+          />
+          {/* jobType field */}
+          {/* status field */}
+
+          <div className='btn-container'>
+            <button
+              type='button'
+              className='btn btn-block clear-btn'
+              onClick={() => console.log('clear values')}
+            >
+              clear
+            </button>
+            <button
+              type='submit'
+              className='btn btn-block'
+              disabled={isLoading}
+            >
+              {isLoading ? 'please wait...' : 'submit'}
+            </button>
+          </div>
+        </div>
+      </form>
+    </Wrapper>
+  )
 }
 
 export default AddJob
