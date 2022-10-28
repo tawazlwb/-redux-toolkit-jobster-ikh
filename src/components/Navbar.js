@@ -1,9 +1,11 @@
+import { FaHome } from 'react-icons/fa'
 import Wrapper from '../assets/wrappers/Navbar'
 
 const Navbar = () => {
   return (
     <Wrapper>
-      <h2>Navbar</h2>
+      <h4>Navbar</h4>
+      <FaHome />
     </Wrapper>
   )
 }
