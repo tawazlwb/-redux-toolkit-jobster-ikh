@@ -1,13 +1,25 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import { Dashboard, Error, Landing, Register } from './pages'
+import { Error, Landing, Register } from './pages'
+import {
+  AddJob,
+  AllJobs,
+  Profile,
+  SharedLayout,
+  Stats,
+} from './pages/Dashboard'
 
 const App = () => {
   return (
     <Router>
       <Routes>
-        <Route path='/' element={<Dashboard />} />
+        <Route path='/' element={<SharedLayout />}>
+          <Route index element={<Stats />} />
+          <Route path='all-jobs' element={<AllJobs />} />
+          <Route path='add-job' element={<AddJob />} />
+          <Route path='profile' element={<Profile />} />
+        </Route>
         <Route path='landing' element={<Landing />} />
         <Route path='register' element={<Register />} />
         <Route path='*' element={<Error />} />
