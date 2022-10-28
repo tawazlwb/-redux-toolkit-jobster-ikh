@@ -24,8 +24,8 @@ export const userPayloadCreator =
       const options = useToken
         ? {
             headers: {
-              // authorization: `Bearer ${thunkAPI.getState().user.user.token}`,
-              authorization: `Bearer `,
+              authorization: `Bearer ${thunkAPI.getState().user.user.token}`,
+              // authorization: `Bearer `,
             },
           }
         : {}
