@@ -1,15 +1,13 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit'
 import {
   getUserFromLocalStorage,
   removeUserFromLocalStorage,
 } from '../../utils/localStorage'
 import {
-  loginUrl,
-  registerUrl,
-  updateUserUrl,
-  userPayloadCreator,
-  userSessionExtraReducerCreator,
-} from './userHelper'
+  loginUserExtraReducers,
+  registerUserExtraReducers,
+  updateUserExtraReducers,
+} from './userThunk'
 
 const initialState = {
   isLoading: false,
@@ -17,22 +15,6 @@ const initialState = {
   isBigSidebarOpen: true,
   user: getUserFromLocalStorage(),
 }
-
-export const registerUser = createAsyncThunk(
-  'user/registerUser',
-  userPayloadCreator(registerUrl, 'post')
-)
-
-// user : iskh@yopmail.com/123456
-export const loginUser = createAsyncThunk(
-  'user/loginUser',
-  userPayloadCreator(loginUrl, 'post')
-)
-
-export const updateUser = createAsyncThunk(
-  'user/updateUser',
-  userPayloadCreator(updateUserUrl, 'patch', true)
-)
 
 const userSlice = createSlice({
   name: 'user',
@@ -50,11 +32,10 @@ const userSlice = createSlice({
     },
   },
   extraReducers: {
-    ...userSessionExtraReducerCreator(registerUser, 'Hello There'),
-    ...userSessionExtraReducerCreator(loginUser, 'Welcome Back'),
-    ...userSessionExtraReducerCreator(updateUser, 'User Updated!', true, {
-      logoutUser: () => logoutUser(),
-    }),
+    ...registerUserExtraReducers,
+    // user : iskh@yopmail.com/123456
+    ...loginUserExtraReducers,
+    ...updateUserExtraReducers,
   },
 })
 

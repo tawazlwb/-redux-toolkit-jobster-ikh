@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
 import { FormRow } from '../../components'
-import { updateUser } from '../../features/user/userSlice'
+import { updateUser } from '../../features/user/userThunk'
 import Wrapper from '../../assets/wrappers/DashboardFormPage'
 
 const Profile = () => {

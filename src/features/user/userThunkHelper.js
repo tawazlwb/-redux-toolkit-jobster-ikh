@@ -3,23 +3,20 @@ import customFetch from '../../utils/axios'
 import { logoutUser } from './userSlice'
 import { addUserToLocalStorage } from '../../utils/localStorage'
 
-export const isTesting = false
-export const registerUrl = isTesting
-  ? '/auth/testingRegister'
-  : '/auth/register'
-export const loginUrl = '/auth/login'
-export const updateUserUrl = '/auth/updateUser'
+export const isUpdate = (method) => {
+  return method === 'put' || method === 'patch'
+}
 
 export const getCustomFetch = (url, user, method, options) => {
-  if (method === 'post' || method === 'put' || method === 'patch') {
+  if (method === 'post' || isUpdate(method)) {
     return customFetch[method](url, user, options)
   }
 
   return customFetch[method](url, options)
 }
 
-export const userPayloadCreator =
-  (url, method, useToken, actions) => async (user, thunkAPI) => {
+export const userAsyncThunkPayloadCreator =
+  (url, method, useToken) => async (user, thunkAPI) => {
     try {
       const options = useToken
         ? {
@@ -32,7 +29,7 @@ export const userPayloadCreator =
       const response = await getCustomFetch(url, user, method, options)
       return response.data
     } catch (error) {
-      if (error.response.status === 401) {
+      if (error.response.status === 401 && isUpdate(method)) {
         thunkAPI.dispatch(logoutUser())
         return thunkAPI.rejectWithValue('Unauthorized! Logging Out...')
       }

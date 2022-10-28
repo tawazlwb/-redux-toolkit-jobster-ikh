@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import Wrapper from '../assets/wrappers/RegisterPage'
 import { Logo, FormRow } from '../components'
-import { loginUser, registerUser } from '../features/user/userSlice'
+import { loginUser, registerUser } from '../features/user/userThunk'
 
 const initialState = {
   name: '',
