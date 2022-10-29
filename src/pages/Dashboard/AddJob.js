@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
 import { FormRow, FormRowSelect } from '../../components'
@@ -21,6 +22,7 @@ const AddJob = () => {
     isEditing,
     editJobId,
   } = useSelector((store) => store.job)
+  const { user } = useSelector((store) => store.user)
   const dispatch = useDispatch()
 
   const handleJobInput = (e) => {
@@ -43,6 +45,12 @@ const AddJob = () => {
 
     dispatch(createJob({ position, company, jobLocation, status, jobType }))
   }
+
+  useEffect(() => {
+    if (!isEditing) {
+      dispatch(handleChange({ id: 'jobLocation', value: user.location }))
+    }
+  }, [])
 
   return (
     <Wrapper>
