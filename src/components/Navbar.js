@@ -26,7 +26,7 @@ const Navbar = () => {
   }
 
   const logout = () => {
-    dispatch(logoutUser())
+    dispatch(logoutUser('Logging out...'))
   }
 
   return (

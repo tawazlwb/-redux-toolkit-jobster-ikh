@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { toast } from 'react-toastify'
 import {
   getUserFromLocalStorage,
   removeUserFromLocalStorage,
@@ -26,9 +27,13 @@ const userSlice = createSlice({
     toggleBigSidebar: (state) => {
       state.isBigSidebarOpen = !state.isBigSidebarOpen
     },
-    logoutUser: (state) => {
+    logoutUser: (state, { payload }) => {
       state.user = null
       removeUserFromLocalStorage()
+
+      if (payload) {
+        toast.success(payload)
+      }
     },
   },
   extraReducers: {
