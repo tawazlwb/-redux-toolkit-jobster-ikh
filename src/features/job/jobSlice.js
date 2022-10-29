@@ -11,7 +11,7 @@ const initialState = {
   isLoading: false,
   position: '',
   company: '',
-  jobLocation: '',
+  jobLocation: getUserFromLocalStorage()?.location || '',
   jobTypeOptions: jobTypeOptions,
   jobType: jobTypeOptions[0],
   statusOptions: statusOptions,
@@ -54,10 +54,7 @@ const jobSlice = createSlice({
       state[id] = value
     },
     clearValues: () => {
-      return {
-        ...initialState,
-        jobLocation: getUserFromLocalStorage()?.location,
-      }
+      return initialState
     },
   },
   extraReducers: {
