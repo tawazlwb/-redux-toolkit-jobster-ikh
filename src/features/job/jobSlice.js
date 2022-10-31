@@ -80,6 +80,13 @@ const jobSlice = createSlice({
     clearValues: () => {
       return initialState
     },
+    setEditJob: (state, { payload }) => {
+      return {
+        ...state,
+        isEditing: true,
+        ...payload,
+      }
+    },
   },
   extraReducers: {
     [createJob.pending]: (state) => {
@@ -93,15 +100,15 @@ const jobSlice = createSlice({
       state.isLoading = false
       toast.error(payload)
     },
-    [deleteJob.fulfilled]: (state, { payload }) => {
+    [deleteJob.fulfilled]: (_, { payload }) => {
       toast.success(payload)
     },
-    [deleteJob.rejected]: (state, { payload }) => {
+    [deleteJob.rejected]: (_, { payload }) => {
       toast.error(payload)
     },
   },
 })
 
-export const { handleChange, clearValues } = jobSlice.actions
+export const { handleChange, clearValues, setEditJob } = jobSlice.actions
 
 export default jobSlice.reducer
