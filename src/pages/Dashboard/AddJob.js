@@ -5,6 +5,7 @@ import {
   handleChange,
   clearValues,
   createJob,
+  editJob,
 } from '../../features/job/jobSlice'
 import Wrapper from '../../assets/wrappers/DashboardFormPage'
 
@@ -38,6 +39,16 @@ const AddJob = () => {
 
     if (!position || !company || !jobLocation) {
       toast.error('Please fill out all fields')
+      return
+    }
+
+    if (isEditing) {
+      dispatch(
+        editJob({
+          jobId: editJobId,
+          job: { position, company, jobLocation, status, jobType },
+        })
+      )
       return
     }
 
