@@ -7,7 +7,6 @@ import NavLinks from './NavLinks'
 import FormRowSelect from './FormRowSelect'
 import SearchContainer from './SearchContainer'
 import JobsContainer from './JobsContainer'
-import Job from './Job'
 
 export {
   Logo,
@@ -19,5 +18,4 @@ export {
   FormRowSelect,
   SearchContainer,
   JobsContainer,
-  Job,
 }
