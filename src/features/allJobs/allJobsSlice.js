@@ -1,6 +1,11 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { toast } from 'react-toastify'
-import customFetch from '../../utils/axios'
+import { createSlice } from '@reduxjs/toolkit'
+import {
+  allJobReducers,
+  getAllJobs,
+  getAllJobsExtraReducer,
+  getStats,
+  getStatsExtraReducer,
+} from './thunk'
 
 const initialFiltersState = {
   search: '',
@@ -21,43 +26,17 @@ const initialState = {
   ...initialFiltersState,
 }
 
-export const getAllJobs = createAsyncThunk(
-  'allJobs/getJobs',
-  async (_, thunkAPI) => {
-    let url = `/jobs`
-
-    try {
-      const response = await customFetch.get(url)
-      return response.data
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data.msg)
-    }
-  }
-)
+export { getAllJobs, getStats }
 
 const allJobsSlice = createSlice({
   name: 'allJobs',
   initialState,
   reducers: {
-    showLoading: (state) => {
-      state.isLoading = true
-    },
-    hideLoading: (state) => {
-      state.isLoading = false
-    },
+    ...allJobReducers(),
   },
   extraReducers: {
-    [getAllJobs.pending]: (state) => {
-      state.isLoading = true
-    },
-    [getAllJobs.fulfilled]: (state, { payload }) => {
-      state.isLoading = false
-      state.jobs = payload.jobs
-    },
-    [getAllJobs.rejected]: (state, { payload }) => {
-      state.isLoading = false
-      toast.error(payload)
-    },
+    ...getAllJobsExtraReducer(),
+    ...getStatsExtraReducer(),
   },
 })
 
