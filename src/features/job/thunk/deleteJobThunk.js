@@ -7,16 +7,13 @@ import {
   showLoading,
 } from '../../allJobs/allJobsSlice'
 import { jobUrl } from '../constants'
+import { authHeader } from './authHeader'
 
 const deleteJobThunk = async (jobId, thunkAPI) => {
   thunkAPI.dispatch(showLoading())
 
   try {
-    const options = {
-      headers: {
-        authorization: `Bearer ${thunkAPI.getState().user.user.token}`,
-      },
-    }
+    const options = authHeader(thunkAPI)
     const response = await customFetch.delete(`${jobUrl}/${jobId}`, options)
     thunkAPI.dispatch(getAllJobs())
     return response.data.msg
