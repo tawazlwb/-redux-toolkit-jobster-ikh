@@ -43,7 +43,14 @@ export const getAllJobs = createAsyncThunk(
 const allJobsSlice = createSlice({
   name: 'allJobs',
   initialState,
-  reducers: {},
+  reducers: {
+    showLoading: (state) => {
+      state.isLoading = true
+    },
+    hideLoading: (state) => {
+      state.isLoading = false
+    },
+  },
   extraReducers: {
     [getAllJobs.pending]: (state) => {
       state.isLoading = true
@@ -59,6 +66,6 @@ const allJobsSlice = createSlice({
   },
 })
 
-// export const {} = allJobsSlice.actions
+export const { showLoading, hideLoading } = allJobsSlice.actions
 
 export default allJobsSlice.reducer
