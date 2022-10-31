@@ -21,7 +21,7 @@ export const loginUser = createAsyncThunk(
 
 export const updateUser = createAsyncThunk(
   'user/updateUser',
-  userAsyncThunkPayloadCreator(updateUserUrl, 'patch', true)
+  userAsyncThunkPayloadCreator(updateUserUrl, 'patch')
 )
 
 export const registerUserExtraReducers = userSessionExtraReducerCreator(

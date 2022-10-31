@@ -1,6 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { toast } from 'react-toastify'
-import authHeader from '../../../utils/authHeader'
 import customFetch from '../../../utils/axios'
 import {
   getAllJobs,
@@ -13,10 +12,7 @@ const deleteJobThunk = async (jobId, thunkAPI) => {
   thunkAPI.dispatch(showLoading())
 
   try {
-    const response = await customFetch.delete(
-      `${jobUrl}/${jobId}`,
-      authHeader(thunkAPI)
-    )
+    const response = await customFetch.delete(`${jobUrl}/${jobId}`)
     thunkAPI.dispatch(getAllJobs())
     return response.data.msg
   } catch (error) {

@@ -16,17 +16,9 @@ export const getCustomFetch = (url, user, method, options) => {
 }
 
 export const userAsyncThunkPayloadCreator =
-  (url, method, useToken) => async (user, thunkAPI) => {
+  (url, method) => async (user, thunkAPI) => {
     try {
-      const options = useToken
-        ? {
-            headers: {
-              authorization: `Bearer ${thunkAPI.getState().user.user.token}`,
-              // authorization: `Bearer `,
-            },
-          }
-        : {}
-      const response = await getCustomFetch(url, user, method, options)
+      const response = await getCustomFetch(url, user, method)
       return response.data
     } catch (error) {
       if (error.response.status === 401 && isUpdate(method)) {

@@ -3,15 +3,10 @@ import { toast } from 'react-toastify'
 import customFetch from '../../../utils/axios'
 import { clearValues } from '../jobSlice'
 import { jobUrl } from '../constants'
-import authHeader from '../../../utils/authHeader'
 
 const editJobThunk = async ({ jobId, job }, thunkAPI) => {
   try {
-    const response = await customFetch.patch(
-      `${jobUrl}/${jobId}`,
-      job,
-      authHeader(thunkAPI)
-    )
+    const response = await customFetch.patch(`${jobUrl}/${jobId}`, job)
     thunkAPI.dispatch(clearValues())
     return response.data
   } catch (error) {
