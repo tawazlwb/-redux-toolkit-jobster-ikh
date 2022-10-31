@@ -54,6 +54,10 @@ const Register = () => {
     }))
   }
 
+  const loginDemoUser = () => {
+    dispatch(loginUser({ email: 'testUser@test.com', password: 'secret' }))
+  }
+
   useEffect(() => {
     if (user) {
       setTimeout(() => {
@@ -93,6 +97,16 @@ const Register = () => {
         <button type='submit' className='btn btn-block' disabled={isLoading}>
           {isLoading ? 'loading...' : 'submit'}
         </button>
+        {values.isMember && (
+          <button
+            type='button'
+            className='btn btn-block btn-hipster'
+            disabled={isLoading}
+            onClick={loginDemoUser}
+          >
+            {isLoading ? 'loading...' : 'demo'}
+          </button>
+        )}
         <p>
           {values.isMember ? 'Not a member yet?' : 'Already a member?'}
           <button

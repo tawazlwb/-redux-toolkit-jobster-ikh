@@ -4,7 +4,7 @@ import {
   userSessionExtraReducerCreator,
 } from './userThunkHelper'
 
-const isTesting = false
+const isTesting = false // testUser@test.com/secret
 const registerUrl = isTesting ? '/auth/testingRegister' : '/auth/register'
 const loginUrl = '/auth/login'
 const updateUserUrl = '/auth/updateUser'
